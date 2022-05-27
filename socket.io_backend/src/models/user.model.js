@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 
-const user = mongoose.Schema({
-	username:{
+const customer = mongoose.Schema({
+	name:{
 		type: String,
 		require:true,
 		default:"",
 	},
-	sdt:{
+	phone:{
 		type: String,
 		require:true,
 		default:"",
@@ -33,5 +33,5 @@ const user = mongoose.Schema({
 	},
 },{timestamps: true})
 
-module.exports = mongoose.model("User", user)
+module.exports = mongoose.model("Customer", customer)
 

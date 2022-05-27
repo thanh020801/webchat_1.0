@@ -7,4 +7,5 @@ module.exports = {
 		listUser: [],
 		listGroup:[],
 	},
+	user:{}
 }

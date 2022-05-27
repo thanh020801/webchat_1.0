@@ -1,19 +1,25 @@
 import { defineStore } from 'pinia'
 
-export const sendStore = defineStore("sendStore",{
+export const messagesStore = defineStore("messageStore",{
   state: () => ({
-    messages: [],
+    // list: [],
   }),
 })
 
 export const userStore = defineStore("userStore",{
   state: () => ({
-    profile: null,
+    // list: [],
   }),
 })
 
 export const friendStore = defineStore("friendStore",{
   state: () => ({
-    list: [],
+    // list: [],
+  }),
+})
+
+export const roomStore = defineStore("roomStore",{
+  state: () => ({
+    // list: [],
   }),
 })

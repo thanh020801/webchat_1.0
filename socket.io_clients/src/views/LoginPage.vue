@@ -1,4 +1,6 @@
 <template>
+  {{user.profile}}<br/><br/>
+  {{friend.list}}
 <section class="vh-100">
   <div class="container py-5 h-100">
     <div class="row d-flex align-items-center justify-content-center h-100">
@@ -7,16 +9,16 @@
           class="img-fluid" alt="Phone image">
       </div>
       <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-        <form>
+        <!-- <form> -->
           <!-- Email input -->
           <div class="form-outline mb-4">
-            <input type="email" id="form1Example13" class="form-control form-control-lg" />
+            <input type="text" v-model='phone' id="form1Example13" class="form-control form-control-lg" />
             <label class="form-label" for="form1Example13">Email address</label>
           </div>
 
           <!-- Password input -->
           <div class="form-outline mb-4">
-            <input type="password" id="form1Example23" class="form-control form-control-lg" />
+            <input type="password" v-model='password' id="form1Example23" class="form-control form-control-lg" />
             <label class="form-label" for="form1Example23">Password</label>
           </div>
 
@@ -30,7 +32,7 @@
           </div>
 
           <!-- Submit button -->
-          <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+          <button class="btn btn-primary btn-lg btn-block" @click='login()'>Sign in</button>
 
           <div class="divider d-flex align-items-center my-4">
             <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
@@ -44,14 +46,36 @@
             role="button">
             <i class="fab fa-twitter me-2"></i>Continue with Twitter</a>
 
-        </form>
+        <!-- </form> -->
       </div>
     </div>
   </div>
 </section>
 </template>
 <script>
-	export default {}
+  import realtime from '@/services/realTime.js'
+import { userStore,messagesStore,friendStore,roomStore } from "@/stores/sendStore.js"
+	export default {
+    data(){
+      return{
+        phone: "123456",
+        password: "123456",
+      }
+    },
+    setup(){
+      const user = userStore()
+      const messages = messagesStore()
+      const friend = friendStore()
+      const room = roomStore()
+      return {user,messages,friend,room}
+    },
+    methods:{
+      login(){
+        const socket = realtime.join({phone: this.phone, password: this.password})
+        // console.log("helo",this.user.profile)
+      },
+    },
+  }
 </script>
 <style type="text/css" scoped>
 .rounded-t-5 {

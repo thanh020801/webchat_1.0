@@ -12,7 +12,7 @@
 
 </template>
 <script>
-  import {sendStore} from '@/stores/sendStore.js'
+  // import {sendStore} from '@/stores/sendStore.js'
 	import ReceiveComponent from '@/components/ReceiveComponent.vue'
 	import SendComponent from '@/components/SendComponent.vue'
   import InputMessageComponent from '@/components/InputMessageComponent.vue'
@@ -23,13 +23,16 @@
           message: "",
           time: "",
           like: false,
+        },
+        sendList:{
+          messages: [],
         }
 
       }
     },
     setup(){
-      const sendList = sendStore()
-      return {sendList}
+      // const sendList = sendStore()
+      // return {sendList}
     },
     methods:{
       getMessage(e){

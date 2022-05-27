@@ -32,7 +32,6 @@
 </div>
 </template>
 <script>
-import {sendStore} from '@/stores/sendStore.js'
 import shareMethods from '@/services/shareMethods.js'
 export default {
 	data(){
@@ -41,8 +40,7 @@ export default {
 		}
 	},
 	setup(){
-		const send = sendStore()
-		return{send}
+
 	},
 	props: ['content'],
 	methods:{

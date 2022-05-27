@@ -4,7 +4,7 @@ const room = mongoose.Schema({
 	name:{
 		type:String,
 		require: true
-	}
+	},
 	admin: {
 		type: String,
 		require: true,

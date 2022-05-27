@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
-const Realtime = require('./src/config/realtime.js')
+const Realtime = require('./src/config/realtime')
 const config = require('./src/config')
 const Routers = require('./src/routers')
 
