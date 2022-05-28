@@ -18,18 +18,41 @@ realtime = (io)=>{
                 socket.emit('LOGIN-FAILED')
                 return;
             }
+
             const hashed = await sha256(data.password)
             const isValidPassword = (user.password === hashed) ? true:false
+
             if(!isValidPassword){
                 socket.emit('LOGIN-FAILED')
                 return
             }
+
             if(user && isValidPassword){
+                const onlineUser = await User.findOneAndUpdate({phone:data.phone},{isOnline:true},{new:true})
+                // console.log(onlineUser)
+                const friends = await Friend.findOne({phone: data.phone})
+                const listFriend = []
+                for(var i=0 ; i< friends.listFriend.length;i++){
+                    var temp = friends.listFriend[i].phone
+                    const friend = await User.findOne({phone: temp})
+                    if(listFriend.indexOf(temp) < 0){
+                        listFriend.push(friend)
+                    }
+                }
                 socket.name = data.phone
-                user.isOnline = true
-                socket.emit('SERVER-LOGIN-SUCCESS',user)
+                socket.emit('SERVER-LOGIN-SUCCESS',{onlineUser,listFriend})
                 io.sockets.emit('SERVER-LOGIN', socket.name)
+                return
             }
+        })
+
+        socket.on('CLIENT-LOGOUT',async ()=>{
+            const user = await User.findOneAndUpdate(
+                {phone: socket.name},
+                {isOnline: false},
+                {new:true}
+            )
+            io.sockets.emit('SERVER-LOGOUT', "")
         })
     })
 

@@ -5,7 +5,7 @@
 </div>
 </template>
 <script>
-import shareMethods from '@/services/shareMethods.js'
+import { shareMethod } from '@/services/shareMethods.js'
 import TitleTasbarComponent from '@/components/TitleTasbarComponent.vue'
 import Search from '@/components/SearchComponent.vue'
 

@@ -38,7 +38,7 @@
 </div>
 </template>
 <script>
-import shareMethods from '@/services/shareMethods.js'
+import {shareMethod} from '@/services/shareMethods.js'
 
 	export default {
     data(){
@@ -47,7 +47,7 @@ import shareMethods from '@/services/shareMethods.js'
     },
     methods:{
         getTimes(){
-            return shareMethods.getTime()
+            return shareMethod.getTime()
         },
         scrollHandel(){
             var myCustomScrollbar = document.querySelector('.my-custom-scrollbar');

@@ -19,7 +19,7 @@
 </div>
 </template>
 <script>
-	import shareMethods from '@/services/shareMethods.js'
+	import {shareMethod} from '@/services/shareMethods.js'
 	export default{
 		data(){
 			return {

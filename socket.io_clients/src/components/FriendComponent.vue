@@ -1,5 +1,5 @@
 <template>
-<div class="list_friend " v-for='index in 55'>
+<div class="list_friend " v-for='item in friend.list'>
     <div class="row">
         <div class="col-2">
             <img 
@@ -10,17 +10,39 @@
             />
         </div>
         <div class="col">
-            <div class="name">Nguyễn Thanh</div>
-            <div class="massage">Hi</div>
+            <div class="name">{{item.name}}</div>
+            <div class="name" v-if='item.isOnline'>vừa mới truy cập</div>
         </div>
         <div class="col-2">
-            <!-- {{getTimes()}} -->
+            {{getTimes()}}
         </div>
     </div>
 </div>
 </template>
-<script type="text/javascript">
-export default {}
+<script >
+import realtime from '@/services/realTime.js'
+import { userStore,messagesStore,friendStore,roomStore } from "@/stores/sendStore.js"
+export default {
+    data(){
+        return {
+            socketInstance: realtime(),
+        }
+    },
+    setup(){
+        const user = userStore()
+        const messages = messagesStore()
+        const friend = friendStore()
+        const room = roomStore()
+        return {user,messages,friend,room}
+    },
+    methods:{
+        getTimes(){
+            const time = new Date()
+            return time.getHours() +":"+ time.getMinutes()
+
+        }
+    }
+}
 </script>
 <style type="text/css" scoped>
 .list_friend{

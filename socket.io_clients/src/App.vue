@@ -1,34 +1,15 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import  io from "socket.io-client"
-// import Test from '@/components/Test.vue'
-// import HelloWorld from '@/components/HelloWorld.vue'
 export default {
   components:{
-    // Test
   },
   methods:{
-    join(){
-      this.socketInstance = io('http://localhost:5000')
-      this.socketInstance.emit('connect:send', "thanh")
-      this.socketInstance.on('connect:success-listUser', data =>{
-        console.log(data)
-      })
-    },
-    // join(){
-    //   this.socketInstance = io('http://localhost:5000')
-    //   // this.socketInstance.emit('connect:send', "thanh")
-    //   this.socketInstance.on('conet', data =>{
-    //     console.log('thanhhhh')
-    //   })
-    // },
   }
 }
 </script>
 
 <template>
-  <!-- <Test/> -->
-  <button @click='join()'>helo</button>
   <router-view />
 </template>
 

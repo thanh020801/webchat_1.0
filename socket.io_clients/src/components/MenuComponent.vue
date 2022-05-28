@@ -15,7 +15,7 @@
 	            	/>
 				  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style=' margin: 0px; padding: 0px;'>
 				    <li><router-link class="dropdown-item" to='/profile'>Profile</router-link></li>
-				    <li><router-link class="dropdown-item" to='/login'>Logout</router-link></li>
+				    <li><router-link class="dropdown-item" to='/login' @click='logout()'>Logout</router-link></li>
 				  </ul>
 				</div>
 		</li>
@@ -29,10 +29,26 @@
 </template>
 <script>
 import { userStore,friendStore } from '@/stores/sendStore.js'
+import realtime from '@/services/realTime.js'
+
 export default {
+	data(){
+		return{
+			socketInstance: realtime()
+		}
+	},
 	setup(){
 		const user = userStore()
 		return {user}
+	},
+	methods:{
+		logout(){
+			this.socketInstance.emit('CLIENT-LOGOUT')
+			this.socketInstance.on('SERVER-LOGOUT',()=>{
+				this.user.profile = null
+				this.$router.push('/login')
+			})
+		}
 	}
 }
 </script>

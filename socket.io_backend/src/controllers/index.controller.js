@@ -12,7 +12,7 @@ const controller={
 		// try{
 			const isUser = await User.findOne({phone: req.body.phone})
 			if(isUser){
-				return res.status(300).json("Account is avaiable !!!")
+				return res.status(300).json("phone number is avaiable !!!")
 			}
 			else{
 				const hashed = await sha256(req.body.password)	
@@ -22,10 +22,16 @@ const controller={
 					password: hashed,
 					// avatar:req.body.avatar,
 				})
-			
 				const user = await newUser.save()
-				if(user){
-					return res.status(200).json(user)
+				const newFriend = Friend({
+					userId: user._id,
+					name: user.name,
+				})
+			
+				
+				const friend = await newFriend.save()
+				if(user && Friend){
+					return res.status(200).json('Register successfully')
 				}
 				return res.status(402).json('Register Failed !!!')
 			}
@@ -36,30 +42,29 @@ const controller={
 	},
 	login: async(req,res)=>{
 		console.log('helo')
-		// try{
-		// 	const user = await User.findOne({username: req.body.name})
-		// 	if(!user){
-		// 		return res.status(404).json("Số điện thoại không tìm thấy !!!")
-		// 	}
-		// 	const hashed = await sha256(req.body.password)
-		// 	const isValidPassword = (user.password === hashed) ? true:false
-		// 	if(!isValidPassword){
-		// 		return res.status(404).json("Mật khẩu không chính xác !!!")
-		// 	}
-		// 	if(user && isValidPassword){
-		// 		config.user = user
-		// 		user.isOnline = true
-		// 		return res.status(200).json(user)
-		// 	}
-		// }catch(err){
-		// 	return res.status(500).json(err)
-		// }
+
 	},
 	updateUser: async(req,res)=>{
 		console.log('helo')
 	},		
 	addFriend: async(req,res)=>{
-		console.log('helo')
+		const isFriend = await Friend.findOne({listFriend: {phone: req.body.phone}})
+		if(!isFriend){
+			const updateFriend = await Friend.findOneAndUpdate(
+				{userId:req.params.idUser},
+				{$push:{listFriend: {phone: req.body.phone}}},
+				{new: true}
+			)
+			console.log(updateFriend)
+			if(updateFriend){
+				return res.status(200).json(updateFriend)
+			}
+			return res.status(402).json('AddFriend Failed !!!')			
+		}else{
+			return res.status(402).json('has friend')	
+		}
+
+
 	},
 	deleteFriend: async(req,res)=>{
 		console.log('helo')

@@ -5,7 +5,7 @@ const friend = mongoose.Schema({
 		type:String,
 		require: true,
 	},
-	user_id:{
+	userId:{
 		type:String,
 		require: true,
 	},

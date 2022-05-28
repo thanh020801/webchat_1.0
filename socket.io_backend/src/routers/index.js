@@ -5,7 +5,7 @@ function Routers(app){
 	router.post('/login', controller.login)
 	router.put('/user/:id', controller.updateUser)
 
-	router.put('/addFriend/:idUser/:idFriend', controller.addFriend)
+	router.put('/addFriend/:idUser', controller.addFriend)
 	router.put('/deleteFriend/:idUser/:idFriend', controller.deleteFriend)
 
 	router.post('/newRoom/:user/:roomName', controller.createRoom)

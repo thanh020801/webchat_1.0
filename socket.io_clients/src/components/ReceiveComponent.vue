@@ -12,7 +12,7 @@
 </div>	
 </template>
 <script>
-import shareMethods from '@/services/shareMethods.js'
+import {shareMethod} from '@/services/shareMethods.js'
 export default {
 	data(){
 		return{
@@ -22,7 +22,7 @@ export default {
 	},
 	methods:{
 		getTimes(){
-			return shareMethods.getTime()
+			return shareMethod.getTime()
 		}
 	}
 }
