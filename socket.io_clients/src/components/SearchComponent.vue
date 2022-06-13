@@ -1,13 +1,52 @@
 <template>
 <div class="search ">
 	<div class="searchbar">
-          <input class="search_input" type="text" name="" placeholder="Search...">
-          <a href="#" class="search_icon"><i class="bi bi-search"></i></a>
+          <input class="search_input" type="text" v-model='keySearch' placeholder="Search...">
+          <button class="search_icon" @click='searchFriend()'><i class="bi bi-search"></i></button>
     </div>
 </div>
 </template>
 <script>
-export default {}
+import { userStore,messagesStore,friendStore,roomStore } from "@/stores/sendStore.js"
+import realtime from '@/services/realTime.js'
+export default {
+    data(){
+        return{
+            socketInstance: realtime(),
+            keySearch: ""
+        }
+    },
+    setup(){
+      const user = userStore()
+      const messages = messagesStore()
+      const friend = friendStore()
+      const room = roomStore()
+      return {user,messages,friend,room}
+    },
+    mounted(){
+        this.socketInstance.on('SEARCH-STATUS',data=>{
+            if(data.success){
+                this.friend.search.people = data.search
+                this.friend.search.isFriend = data.isFriend
+                // console.log(data.isFriend)
+                // console.log(this.friend.search)
+            }else{
+                this.friend.search.people = null
+                this.friend.search.isFriend = false
+            }
+        })
+    },
+    methods:{
+        searchFriend(){
+            if(this.keySearch){
+                this.socketInstance.emit("SEARCH",this.keySearch)
+                this.keySearch = ""
+            }else{
+                alert("Yeu cau nhap truoc khi tim kiem")
+            }
+        },
+    }
+}
 </script>
 <style type="text/css" scoped>
 .search{
@@ -41,6 +80,8 @@ export default {}
 }
 
 .search_icon{
+    background: #353b48;
+    border: none;
     height: 30px;
     width: 40px;
     float: right;

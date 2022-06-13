@@ -9,12 +9,16 @@ export const messagesStore = defineStore("messageStore",{
 export const userStore = defineStore("userStore",{
   state: () => ({
     // list: [],
+    isOnline: false,
+    addFriend:[],
   }),
 })
 
 export const friendStore = defineStore("friendStore",{
   state: () => ({
-    // list: [],
+     onlines: [],
+     list: [],
+     search: {people: "",isFriend:false},
   }),
 })
 

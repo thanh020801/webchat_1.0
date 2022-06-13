@@ -4,7 +4,7 @@ module.exports = {
 		uri: process.env.MONGOO_URI || 'mongodb+srv://thanh:w1zqVPs5UfWnFJVK@cluster0.ci2u2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
 	},
 	socket:{
-		listUser: [],
+		onlines: [],
 		listGroup:[],
 	},
 	user:{}

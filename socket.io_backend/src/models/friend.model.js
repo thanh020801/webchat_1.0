@@ -13,6 +13,14 @@ const friend = mongoose.Schema({
 		type:Array,
 		default: [],
 	},
+	invites:{
+		type:Array,
+		default: [],
+	},
+	receives:{
+		type:Array,
+		default: [],
+	}
 	
 },{timestamps: true})
 

@@ -34,7 +34,9 @@
           <br/>
           <router-link to='/register'>
             <button class="btn btn-success btn-lg btn-block">Sign up</button>
-          </router-link>
+          </router-link><br>
+          <button class="btn btn-success btn-lg btn-block" @click='clear()'>Clear</button>
+
  <!--          <div class="divider d-flex align-items-center my-4">
             <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
           </div>
@@ -59,6 +61,7 @@ import { userStore,messagesStore,friendStore,roomStore } from "@/stores/sendStor
 	export default {
     data(){
       return{
+        numberLogin: 1,
         socketInstant: realtime(),
         phone: "123456",
         password: "123456",
@@ -71,23 +74,48 @@ import { userStore,messagesStore,friendStore,roomStore } from "@/stores/sendStor
       const room = roomStore()
       return {user,messages,friend,room}
     },
+    created(){
+      this.socketInstant.on('LOGIN-STATUS',data=>{
+          if(data.success){
+            
+            this.user.profile = data.user
+            this.friend.list = data.listFriend
+            this.$router.push('/chats')
+            // console.log("onl",this.friend.list)
+          }else{
+            alert('login failed')
+          }
+        })
+
+      this.socketInstant.on('FRIEND-ONLINE',data=>{
+        for (var i = 0; i < this.friend.list.length; i++) {
+          // console.log('fre',this.friend.list[i].phone)
+          var friend =  this.friend.list[i]
+          var temp = data.onlines.findIndex(i=> i.phone === friend.phone)
+        
+          if( temp >= 0){
+            this.friend.list[i].onl = true
+            // console.log("onl1",this.friend.list)
+          }else{
+            this.friend.list[i].onl = false
+          }
+        }
+      })
+    },
+    mounted(){
+      
+
+
+    },
     methods:{
       login(){
         // lời gọi login
         this.socketInstant.emit('CLIENT-LOGIN',{phone: this.phone, password: this.password})
         // lắng nghe login thành công trả về user và chuyển hướng sang trang nhắn tin
-        this.socketInstant.on('SERVER-LOGIN-SUCCESS',data=>{
-          this.user.profile = data.onlineUser
-          this.friend.list = data.listFriend
-          if(this.user.profile){
-            this.$router.push('/chats')
-          }
-        })
-        // lắng nghe login thất bại
-        this.socketInstant.on('LOGIN-FAILED',data=>{
-          alert('login failed')
-        })
       },
+      clear(){
+        this.socketInstant.emit('CLEAR')
+      }
 
     },
   }

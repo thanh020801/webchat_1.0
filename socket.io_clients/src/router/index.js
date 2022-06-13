@@ -8,6 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'dashboard',
+      redirect: "/chats",
       component: DashboardPage,
       children: [
             {

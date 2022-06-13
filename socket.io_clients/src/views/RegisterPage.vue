@@ -73,16 +73,17 @@
 </section>
 </template>
 <script>
-import { API } from '@/services/shareMethods.js'
+import realTime from '@/services/realTime.js'
 export default{
 	data(){
 		return{
+      socketInstance: realTime(),
 			newUser:{
-				name: "Ngọc Thi",
-				phone: "123321",
-				password: "123321",
+				name: "Thanh",
+				phone: "123",
+				password: "123",
 			},
-			passwordRepeat: "123321",
+			passwordRepeat: "123",
 		}
 	},
 	methods:{
@@ -93,7 +94,12 @@ export default{
 				this.passwordRepeat
 			){
 				if(this.newUser.password === this.passwordRepeat){
-					API.register(this.newUser)
+					this.socketInstance.emit('CLIENT-REGISTER',this.newUser)
+          this.socketInstance.on('REGISTER-STATUS', data=>{
+            alert(data)
+            // console.log(data)
+            return
+          })
 				}
 			}
 		}

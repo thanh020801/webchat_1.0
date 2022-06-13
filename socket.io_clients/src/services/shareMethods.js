@@ -15,14 +15,14 @@ export const shareMethod = {
 }
 
 export const API ={
-	register: (data)=>{
-		connectAPI('POST', '/register', data)
-		.then((res)=>{
-			console.log(res.data)
-			router.push('/login')
+	// register: (data)=>{
+	// 	connectAPI('POST', '/register', data)
+	// 	.then((res)=>{
+	// 		console.log(res.data)
+	// 		router.push('/login')
 
-		}).catch((err)=>{
-			alert(err.response.data)
-		})
-	}
+	// 	}).catch((err)=>{
+	// 		alert(err.response.data)
+	// 	})
+	// }
 }

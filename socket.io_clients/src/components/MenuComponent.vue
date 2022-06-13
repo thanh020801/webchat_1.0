@@ -28,7 +28,7 @@
 </div>
 </template>
 <script>
-import { userStore,friendStore } from '@/stores/sendStore.js'
+import { userStore,messagesStore,friendStore,roomStore } from "@/stores/sendStore.js"
 import realtime from '@/services/realTime.js'
 
 export default {
@@ -37,18 +37,36 @@ export default {
 			socketInstance: realtime()
 		}
 	},
-	setup(){
-		const user = userStore()
-		return {user}
-	},
+    setup(){
+      const user = userStore()
+      const messages = messagesStore()
+      const friend = friendStore()
+      const room = roomStore()
+      return {user,messages,friend,room}
+    },
+    mounted(){
+		this.socketInstance.on('LOGOUT-STATUS',(data)=>{
+	        for (var i = 0; i < this.friend.list.length; i++) {
+		        console.log('fre',this.friend.list[i].phone)
+		        var friend =  this.friend.list[i]
+		        var temp = data.onlines.findIndex(i=> i.phone === friend.phone)
+		        
+	          	if( temp >= 0){
+	            	this.friend.list[i].onl = true
+	            	console.log("onl1",this.friend.list)
+	          	}else{
+	          		this.friend.list[i].onl = false
+	          	}
+        	}
+      	})
+				
+    },
 	methods:{
 		logout(){
-			this.socketInstance.emit('CLIENT-LOGOUT')
-			this.socketInstance.on('SERVER-LOGOUT',()=>{
-				this.user.profile = null
-				this.$router.push('/login')
-			})
-		}
+			this.socketInstance.emit('CLIENT-LOGOUT',{phone:this.user.profile.phone})
+			this.user.profile = null
+			this.$router.push('/login')
+		},
 	}
 }
 </script>

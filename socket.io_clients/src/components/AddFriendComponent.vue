@@ -10,11 +10,10 @@
             />
         </div>
         <div class="col">
-            <div class="name">{{item.phone}}</div>
-            <div class="name" v-if='item.onl'>vừa mới truy cập</div>
+            <div class="name">{{item.people.phone}}</div>
         </div>
         <div class="col-2">
-            {{getTimes()}}
+            <div v-if='!item.isFriend' @click='addFriend()'>add</div>
         </div>
     </div>
 </template>
@@ -36,17 +35,22 @@ export default {
         const room = roomStore()
         return {user,messages,friend,room}
     },
+    mounted(){
+        this.socketInstance.on('INVITE-STATUS', (data)=>{
+            console.log('Đã gửi lời mời đến ',this.item.people.phone)
+        })
+    },
     methods:{
         getTimes(){
             const time = new Date()
             return time.getHours() +":"+ time.getMinutes()
 
         },
-        isOnline(phone){
-            if(this.friend.onlines.findIndex(i => i.phone === phone) >= 0)
-                return true
-            return false
+        addFriend(){
+            console.log(this.user.profile)
+            this.socketInstance.emit('INVITE-ADDFRIEND',{user:this.user.profile,phoneInvited: this.item.people.phone})
         }
+
     }
 }
 </script>
